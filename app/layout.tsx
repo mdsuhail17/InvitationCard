@@ -25,9 +25,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Moin & Noora · Wedding Invitation",
+  title: "Noora & Moin · Wedding Invitation",
   description:
-    "Mrs. Pyari Begum Khan & family invite you to the Nikah of Moin Khan with Noora Shaikh — 12 December 2026, Cubix Hotel, Hubballi, followed by the Reception on 13 December at The Grand Lawns.",
+    "The family of Late Mr. Haji Abdul Hamid Shaikh & Mrs. Sabirabi Shaikh invite you to the Nikah of Noora Shaikh with Moin Khan — Saturday, 12 December 2026, 12:45 PM, Cubix Hotel, Gokul Road, Rajendra Nagar, Hubballi, followed by lunch.",
 };
 
 export const viewport: Viewport = {
