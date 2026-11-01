@@ -17,13 +17,13 @@ const CONTENT = {
   brideFull: "Noora Shaikh",
   groom: "Moin",
   groomFull: "Moin Khan",
-  initials: "M·N",
+  initials: "N·M",
   bismillah: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-  coverLabel: "Insha Allah Nikah & Reception",
-  coverDate: "12 & 13 · 12 · 2026",
+  coverLabel: "Insha Allah Nikah",
+  coverDate: "12 · 12 · 2026",
   openLabel: "Tap to open",
   gettingMarried: "Insha Allah, are getting married",
-  saveDate: "12th & 13th December 2026",
+  saveDate: "12th December 2026",
   captions: {
     couple: "Join us as our forever begins",
   },
@@ -31,24 +31,20 @@ const CONTENT = {
     heading: "Dear Guests!",
     opener:
       "In the name of Almighty Allah, the Most Beneficent and the Most Merciful.",
-    line1: "We, the family of Mrs. Pyari Begum Khan & Late Mr. Abdul Razak Khan, solicit your gracious presence on the auspicious occasion of the wedding ceremony of our grand son",
-    groomParents: "S/o Mr. Abdul Aziz Khan & Mrs. Asiya Bi",
-    brideParents: "D/o Mr. Abdul Kalam Azad Shaikh & Mrs. Noor Afshan, Hubli",
-    dua: "May Allah guide this marriage to the best of Understanding, Prosperity, Blessing and Success, and guide them to always be on the Straight Path. Ameen.",
+    line1: "We, the family of Late Mr. Haji Abdul Hamid Shaikh & Mrs. Sabirabi Shaikh, solicit your gracious presence on the auspicious occasion of the wedding ceremony of our grand daughter",
+    groomParents: "S/o. Mr. Abdul Aziz Khan & Mrs. Asiya Bi Khan",
+    brideParents: "D/o. Mr. Abdul Kalam Azad Shaikh & Mrs. Noor Afshan Shaikh",
+    dua: "May Allah guide this marriage to the best of Understanding, Prosperity, Blessing, Success and Guide them to always be on the Straight Path. Ameen.",
   },
-  detailsTitle: "Nikah & Reception",
+  detailsTitle: "Nikah",
   details: [
     ["Event", "Insha Allah Nikah"],
     ["Date", "12th December 2026"],
     ["Day", "Saturday"],
-    ["Time", "12:35 PM · Followed by Lunch"],
-    ["Event", "Reception"],
-    ["Date", "13th December 2026"],
-    ["Day", "Sunday"],
-    ["Time", "8:30 PM · Followed by Dinner"],
+    ["Time", "12:45 PM · Followed by Lunch"],
   ] as const,
   venue: {
-    title: "Venues",
+    title: "Venue",
     places: [
       {
         event: "Nikah · Cubix Hotel",
@@ -58,29 +54,20 @@ const CONTENT = {
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Cubix+Hotel+Gokul+Road+Hubballi",
       },
-      {
-        event: "Reception · The Grand Lawns",
-        name:
-          "The Grand Lawns, Naveen Park Entrance, Kusugal Road, Keshwapur, Hubballi",
-        photo: "/assets/grand.avif",
-        mapLabel: "Open in map",
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=The+Grand+Lawns+Kusugal+Road+Keshwapur+Hubballi",
-      },
     ],
   },
   countdownTitle: "Until the Nikah",
   countdownNote: "Insha Allah · 12th December 2026",
   withLove:
-    "With Best Compliments · Mutwalli-O-Arakin-E-Jamat, Rehmaniya Masjid, Chetana Colony, Hubballi",
-  blessings: "Khan Family, Relatives & Friends · Presents in Blessings only",
+    "With Best Compliments From · Mutwalli-O-Arakin-E-Jamat, Taj Masjid, Tajnagar, Unkal, Hubballi",
+  blessings: "Shaikh Family, Relatives & Friends",
 };
 
-/* Nikah — 12 December 2026, 12:35 PM local time */
-const WEDDING_AT = new Date(2026, 11, 12, 12, 35, 0).getTime();
+/* Nikah — 12 December 2026, 12:45 PM local time */
+const WEDDING_AT = new Date(2026, 11, 12, 12, 45, 0).getTime();
 const CAL_YEAR = 2026;
 const CAL_MONTH = 11; // December (0-indexed)
-const CAL_DAYS = [12, 13]; // Nikah on the 12th, Reception on the 13th
+const CAL_DAYS = [12]; // Nikah on the 12th
 
 /* deterministic PRNG so server and client render identical decorations */
 function mulberry32(seed: number) {
@@ -99,7 +86,6 @@ export default function Invitation() {
   const [wide, setWide] = useState(false);
   const [left, setLeft] = useState<number | null>(null);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
   const coverRef = useRef<HTMLElement>(null);
   const timers = useRef<number[]>([]);
 
@@ -154,25 +140,9 @@ export default function Invitation() {
     return () => cover.removeEventListener("touchmove", stop);
   }, [coverMounted]);
 
-  /* muted flag set imperatively so autoplay reliably starts */
-  useEffect(() => {
-    if (videoRef.current) videoRef.current.muted = true;
-  }, []);
-
   const open = useCallback(() => {
     if (phase !== "cover") return;
     setPhase("opening");
-
-    const video = videoRef.current;
-    if (video) {
-      try {
-        /* stays muted — no music on open */
-        video.muted = true;
-        video.play().catch(() => {});
-      } catch {
-        /* playback is a bonus — ignore */
-      }
-    }
 
     timers.current.push(
       window.setTimeout(() => setPhase("open"), 1300),
@@ -333,27 +303,9 @@ export default function Invitation() {
           onClick={open}
         >
           {wide && (
-            <video
-              className="bgb"
-              muted
-              loop
-              autoPlay
-              playsInline
-              preload="auto"
-              src="/assets/intro.mp4"
-            />
+            <img className="bgb" src="/assets/nikkah-nama.jpg" alt="" />
           )}
-          <video
-            ref={videoRef}
-            className="bgv"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/assets/poster.jpg"
-            src="/assets/intro.mp4"
-          />
+          <img className="bgv" src="/assets/nikkah-nama.jpg" alt="" />
           <div className="shade" />
           <div className="flash" />
           <div id="sparks">{sparks}</div>
@@ -363,7 +315,8 @@ export default function Invitation() {
           </div>
           <p className="small">{CONTENT.coverLabel}</p>
           <h1 className="script">
-            {CONTENT.groom} &amp; {CONTENT.bride}
+            {CONTENT.bride} <span className="amp">&amp;</span>{" "}
+            {CONTENT.groom}
           </h1>
           <p className="date">{CONTENT.coverDate}</p>
           <button className="open" type="button">
@@ -383,9 +336,9 @@ export default function Invitation() {
         </span>
         <p className="bism ar rv">{CONTENT.bismillah}</p>
         <h2 className="names script rv wr">
-          {CONTENT.groom}
-          <em>&amp;</em>
           {CONTENT.bride}
+          <em>&amp;</em>
+          {CONTENT.groom}
         </h2>
         <p className="small sp1 rv">{CONTENT.gettingMarried}</p>
       </section>
@@ -397,14 +350,14 @@ export default function Invitation() {
             <h2 className="script wr">{CONTENT.invite.heading}</h2>
             <p className="opener">{CONTENT.invite.opener}</p>
             <p>
-              {CONTENT.invite.line1} <b>{CONTENT.groomFull}</b> <i>with</i>{" "}
-              <b>{CONTENT.brideFull}</b>.
+              {CONTENT.invite.line1} <b>{CONTENT.brideFull}</b> <i>with</i>{" "}
+              <b>{CONTENT.groomFull}</b>.
             </p>
             <p className="parents">
-              {CONTENT.groomFull}, B.E. — {CONTENT.invite.groomParents}
+              {CONTENT.brideFull} — {CONTENT.invite.brideParents}
             </p>
             <p className="parents">
-              {CONTENT.brideFull}, B.E. — {CONTENT.invite.brideParents}
+              {CONTENT.groomFull} — {CONTENT.invite.groomParents}
             </p>
             <p className="dua">{CONTENT.invite.dua}</p>
           </div>
@@ -494,7 +447,7 @@ export default function Invitation() {
         <div className="mono rv" aria-hidden="true">
           <i>❀</i>
           <span className="script">
-            {CONTENT.groom[0]} &amp; {CONTENT.bride[0]}
+            {CONTENT.bride[0]} &amp; {CONTENT.groom[0]}
           </span>
           <i>❀</i>
         </div>
@@ -505,7 +458,7 @@ export default function Invitation() {
             fontSize: "var(--famfs, clamp(18px, 6.2vw, 36px))",
           }}
         >
-          The Families of {CONTENT.groom} &amp; {CONTENT.bride}
+          The Families of {CONTENT.bride} &amp; {CONTENT.groom}
         </p>
         <p className="small rv" style={{ marginTop: "8px" }}>
           With Love
